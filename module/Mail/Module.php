@@ -1,8 +1,8 @@
 <?php 
-namespace Admin;
+namespace Mail;
 
-use Admin\Model\Admin;
-use Admin\Model\AdminTable;
+use Mail\Model\Mail;
+use Mail\Model\MailTable;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 
@@ -31,16 +31,16 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
     {
         return array(
             'factories' => array(
-                'Admin\Model\AdminTable' =>  function($sm) {
-                    $tableGateway = $sm->get('AdminTableGateway');
-                    $table = new AdminTable($tableGateway);
+                'Mail\Model\MailTable' =>  function($sm) {
+                    $tableGateway = $sm->get('MailTableGateway');
+                    $table = new MailTable($tableGateway);
                     return $table;
                 },
-                'AdminTableGateway' => function ($sm) {
+                'MailTableGateway' => function ($sm) {
                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                     $resultSetPrototype = new ResultSet();
-                    $resultSetPrototype->setArrayObjectPrototype(new Admin());
-                    return new TableGateway('admin', $dbAdapter, null, $resultSetPrototype);
+                    $resultSetPrototype->setArrayObjectPrototype(new Mail());
+                    return new TableGateway('mail', $dbAdapter, null, $resultSetPrototype);
                 },
             ),
         );

@@ -8,6 +8,16 @@ use Zend\View\Model\ViewModel;
 class ArticleController extends AbstractActionController
 {
     protected $articleTable;
+    
+    //the ServiceManager can create an AlbumTable instance for us, we can add a method to the controller to retrieve it.
+    public function getArticleTable()
+    {
+        if (!$this->articleTable) {
+            $sm = $this->getServiceLocator();
+            $this->articleTable = $sm->get('Article\Model\ArticleTable');
+        }
+        return $this->articleTable;
+    }
 
     public function indexAction()
     {
@@ -31,15 +41,5 @@ class ArticleController extends AbstractActionController
 
     public function ajax_ratingAction()
     {
-    }
-    
-    //the ServiceManager can create an AlbumTable instance for us, we can add a method to the controller to retrieve it.
-    public function getArticleTable()
-    {
-        if (!$this->articleTable) {
-            $sm = $this->getServiceLocator();
-            $this->articleTable = $sm->get('Article\Model\ArticleTable');
-        }
-        return $this->articleTable;
     }
 }
