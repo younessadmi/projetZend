@@ -7,8 +7,23 @@ use Zend\View\Model\ViewModel;
 
 class AdminController extends AbstractActionController
 {
+    protected $adminTable;
+    
+    //the ServiceManager can create an AlbumTable instance for us, we can add a method to the controller to retrieve it.
+    public function getAdminTable()
+    {
+        if (!$this->adminTable) {
+            $sm = $this->getServiceLocator();
+            $this->adminTable = $sm->get('Admin\Model\AdminTable');
+        }
+        return $this->adminTable;
+    }
+    
     public function indexAction()
     {
+        return new ViewModel([
+            'admins' => $this->getAdminTable()->fetchAll(),
+        ]);
     }
 
     public function loginAction()
