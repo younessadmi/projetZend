@@ -36,6 +36,9 @@ class AdminController extends AbstractActionController
 
     public function logoutAction()
     {
+        $_SESSION = [];
+        session_destroy();
+        $this->redirect()->toRoute('admin', ['action' => 'login']);
     }
 
     public function gestion_pageAction()
