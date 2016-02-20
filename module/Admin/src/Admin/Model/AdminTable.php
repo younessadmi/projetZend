@@ -6,6 +6,7 @@ use Zend\Db\TableGateway\TableGateway;
 class AdminTable
 {
     protected $tableGateway;
+    protected $salt = "F_8U44u/BtmbSh)94";
 
     public function __construct(TableGateway $tableGateway)
     {
@@ -26,6 +27,26 @@ class AdminTable
         if (!$row) {
             throw new \Exception("Could not find row $id");
         }
+        return $row;
+    }
+
+    private function cryptPwd($pwd){
+        return substr(hash("sha256", sha1($pwd.$this->salt)), 0, 50);   
+    }
+
+    public function getInfoAdmin($email, $pwd){
+
+        $where = [
+            'idmail' => $email,
+            'password' => $this->cryptPwd($pwd),
+        ];
+
+        $rowset = $this->tableGateway->select($where);
+        $row = $rowset->current();
+        if(!$row){
+            return false;
+        }
+        echo '<pre>', var_dump($row), '</pre>';
         return $row;
     }
 

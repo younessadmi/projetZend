@@ -2,8 +2,13 @@
 
 namespace Admin\Model;
 
+use Zend\InputFilter\InputFilter;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterInterface;
+
 class Admin
 {
+    protected $inputFilter;
     public $id;
     public $name;
     public $firstname;
@@ -27,5 +32,30 @@ class Admin
         $this->date_edit     = (!empty($data['date_edit'])) ? $data['date_edit'] : null;
         $this->idmail     = (!empty($data['idmail'])) ? $data['idmail'] : null;
         $this->idrole     = (!empty($data['idrole'])) ? $data['idrole'] : null;
+    }
+    public function setInputFilter(InputFilterInterface $inputFilter)
+    {
+        throw new \Exception("Not used");
+    }
+
+    public function getInputFilter()
+    {
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+
+            $inputFilter->add(array(
+                'name'     => 'email',
+                'required' => true,
+            ));
+
+            $inputFilter->add(array(
+                'name'     => 'pwd',
+                'required' => true,
+            ));
+
+            $this->inputFilter = $inputFilter;
+        }
+
+        return $this->inputFilter;
     }
 }
