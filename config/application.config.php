@@ -10,7 +10,7 @@ return [
     'modules' => [
         'Application',
         'Article',
-        'Admin',
+        'Admin'
     ],
 
     // These are various options for the listeners attached to the ModuleManager
