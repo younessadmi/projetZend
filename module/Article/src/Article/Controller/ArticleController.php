@@ -7,6 +7,7 @@ use Zend\View\Model\ViewModel;
 
 class ArticleController extends AbstractActionController
 {
+
     public function indexAction()
     {
     }
