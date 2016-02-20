@@ -89,49 +89,49 @@ class AdminController extends AbstractActionController
         $this->redirect()->toRoute('admin', ['action' => 'login']);
     }
 
-    public function gestion_pageAction()
+    public function gestionPageAction()
     {
         if(!isset($_SESSION['id'])){
             $this->redirect()->toRoute('admin', ['action' => 'login']);
         }
     }
 
-    public function gestion_articleAction()
+    public function gestionArticleAction()
     {
         if(!isset($_SESSION['id'])){
             $this->redirect()->toRoute('admin', ['action' => 'login']);
         }
     }
 
-    public function gestion_newsletterAction()
+    public function gestionNewsletterAction()
     {
         if(!isset($_SESSION['id'])){
             $this->redirect()->toRoute('admin', ['action' => 'login']);
         }
     }
 
-    public function gestion_commentAction()
+    public function gestionCommentAction()
     {
         if(!isset($_SESSION['id'])){
             $this->redirect()->toRoute('admin', ['action' => 'login']);
         }
     }
 
-    public function gestion_categorieAction()
+    public function gestionCategorieAction()
     {
         if(!isset($_SESSION['id'])){
             $this->redirect()->toRoute('admin', ['action' => 'login']);
         }
     }
 
-    public function gestion_adminAction()
+    public function gestionAdminAction()
     {
         if(!isset($_SESSION['id'])){
             $this->redirect()->toRoute('admin', ['action' => 'login']);
         }
     }
 
-    public function gestion_profilAction()
+    public function gestionProfilAction()
     {
         if(!isset($_SESSION['id'])){
             $this->redirect()->toRoute('admin', ['action' => 'login']);
