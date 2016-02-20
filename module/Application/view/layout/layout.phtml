@@ -49,7 +49,7 @@
                         </li>
                         <?php }else{?>
                         <li>
-                            <a href="#">Welcome Younes SADMI</a>
+                            <a href="#">Welcome <?php echo $_SESSION['firstname'], ' ', $_SESSION['name'];?></a>
                         </li>
                         <li>
                             <a href="<?php echo $this->url('admin', ['action'=>'index']) ?>">Administration</a>
