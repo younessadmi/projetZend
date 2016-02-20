@@ -1,3 +1,6 @@
+<?php $this->headTitle($this->escapeHtml($article->title));?>
+
+
 <div class="row pre-article">
     <div class="col-md-12">
         <img src="http://www.younes-sadmi.fr/personal_projects/investigator/<?php echo $this->escapeHtml($article->url_picture);?>" alt="" class="img-rounded img-responsive article-picture">
@@ -87,12 +90,12 @@
         //pour que l'image ne sortent pas de l'écran mobile
         $('article img').each(function(i, e){
             $(this).addClass('img-responsive');
-//            $(this).css('width', 'auto');
+            //            $(this).css('width', 'auto');
             $(this).css('height', 'auto');
             $(this).css('display', 'block');
             $(this).css('margin-left', 'auto');
             $(this).css('margin-right', 'auto');
-            
+
         });
     });
 </script>
