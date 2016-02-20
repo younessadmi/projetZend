@@ -1,44 +1,75 @@
-<div class="jumbotron">
-    <h1><?php echo sprintf($this->translate('Welcome to %sZend Framework 2%s'), '<span class="zf-green">', '</span>') ?></h1>
-    <p><?php echo sprintf($this->translate('Congratulations! You have successfully installed the %sZF2 Skeleton Application%s. You are currently running Zend Framework version %s. This skeleton can serve as a simple starting point for you to begin building your application on ZF2.'), '<a href="https://github.com/zendframework/ZendSkeletonApplication" target="_blank">', '</a>', \Zend\Version\Version::VERSION) ?></p>
-    <p><a class="btn btn-success btn-lg" href="https://github.com/zendframework/zf2" target="_blank"><?php echo $this->translate('Fork Zend Framework 2 on GitHub') ?> &raquo;</a></p>
+<?php $this->headTitle('Home');?>
+
+<div class="row articles-preview">
+    <?php foreach($articles as $article){?>
+    <div class="col-md-12 row article-preview">
+        <div class="col-md-3">
+            <a href="<?php echo $this->url('article', ['action'=>'afficher', 'id'=>$article->id]); ?>">
+                <img src="http://www.younes-sadmi.fr/personal_projects/investigator/<?php echo $this->escapeHtml($article->url_picture);?>" alt="" class="article-picture img-rounded">
+            </a>
+        </div>
+        <div class="col-md-9">
+            <a href="<?php echo $this->url('article', ['action'=>'afficher', 'id'=>$article->id]); ?>">
+                <p class="date_publish"><i class="fa fa-calendar-o"></i> <?php echo $this->escapeHtml(date_format(new DateTime($article->date_publish), 'd-m-Y'));?></p>
+                <p class="title"><?php echo $this->escapeHtml($article->title);?></p>
+                <p class="description"><?php echo $this->escapeHtml($article->description);?></p>
+                <p class="view"><?php echo $this->escapeHtml($article->view);?> <i class="fa fa-eye"></i></p>
+                <!--            <p class="idcategory"><?php echo $this->escapeHtml($article->idcategory);?></p>-->
+            </a>
+        </div>
+    </div>
+    <?php } ?>
 </div>
 
-<div class="row">
 
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><?php echo $this->translate('Follow Development') ?></h3>
-            </div>
-            <div class="panel-body">
-                <p><?php echo sprintf($this->translate('Zend Framework 2 is under active development. If you are interested in following the development of ZF2, there is a special ZF2 portal on the official Zend Framework website which provides links to the ZF2 %swiki%s, %sdev blog%s, %sissue tracker%s, and much more. This is a great resource for staying up to date with the latest developments!'), '<a href="http://framework.zend.com/wiki/display/ZFDEV2/Home">', '</a>', '<a href="http://framework.zend.com/zf2/blog">', '</a>', '<a href="https://github.com/zendframework/zf2/issues">', '</a>') ?></p>
-                <p><a class="btn btn-success pull-right" href="http://framework.zend.com/zf2" target="_blank"><?php echo $this->translate('ZF2 Development Portal') ?> &raquo;</a></p>
-            </div>
-        </div>
-    </div>
+<style>
+    .articles-preview a {
+        color: inherit;
+    }
 
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><?php echo $this->translate('Discover Modules') ?></h3>
-            </div>
-            <div class="panel-body">
-                <p><?php echo sprintf($this->translate('The community is working on developing a community site to serve as a repository and gallery for ZF2 modules. The project is available %son GitHub%s. The site is currently live and currently contains a list of some of the modules already available for ZF2.'), '<a href="https://github.com/zendframework/modules.zendframework.com">', '</a>') ?></p>
-                <p><a class="btn btn-success pull-right" href="http://modules.zendframework.com/" target="_blank"><?php echo $this->translate('Explore ZF2 Modules') ?> &raquo;</a></p>
-            </div>
-        </div>
-    </div>
+    .articles-preview .article-preview{
+        display:block;
+        position: relative;
+        border-bottom: solid 1px #eee;
+        padding: 10px;
+    }
 
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><?php echo $this->translate('Help &amp; Support') ?></h3>
-            </div>
-            <div class="panel-body">
-                <p><?php echo sprintf($this->translate('If you need any help or support while developing with ZF2, you may reach us via IRC: %s#zftalk on Freenode%s. We\'d love to hear any questions or feedback you may have regarding the beta releases. Alternatively, you may subscribe and post questions to the %smailing lists%s.'), '<a href="irc://irc.freenode.net/zftalk">', '</a>', '<a href="http://framework.zend.com/wiki/display/ZFDEV/Mailing+Lists">', '</a>') ?></p>
-                <p><a class="btn btn-success pull-right" href="http://webchat.freenode.net?channels=zftalk" target="_blank"><?php echo $this->translate('Ping us on IRC') ?> &raquo;</a></p>
-            </div>
-        </div>
-    </div>
-</div>
+    .articles-preview .article-preview img.article-picture{
+        width: 70%;
+        display: block;
+        margin-left:auto;
+        margin-right:auto;
+    }
+    @media (max-width: 992px){
+        .articles-preview .article-preview img.article-picture{
+            max-width: 40%;
+        }
+    }
+
+    .articles-preview .article-preview .title{
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .articles-preview .article-preview .description{
+        font-size: 14px;
+    }
+
+    .articles-preview .article-preview .view{
+        position: absolute;
+        bottom: 0px;
+        right: 10px;
+    }
+
+    .articles-preview .article-preview .date_publish{
+        color: #aaa;
+        position: absolute;
+        top: 0px;
+        right: 10px;
+
+    }
+
+    .articles-preview .article-preview .idcategory{
+
+    }
+</style>

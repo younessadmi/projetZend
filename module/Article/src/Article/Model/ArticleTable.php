@@ -17,6 +17,12 @@ class ArticleTable
         $resultSet = $this->tableGateway->select();
         return $resultSet;
     }
+    
+    public function getActiveArticle()
+    {
+        $resultSet = $this->tableGateway->select('status = 1 ORDER BY date_publish DESC');
+        return $resultSet;
+    }
 
     public function getArticle($id)
     {
