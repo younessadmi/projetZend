@@ -5,13 +5,13 @@ $this->headTitle($title);
 <h1 style="text-align:center"><?php echo $title;?></h1>
 <div class="row" style="text-align:center">
     <div class="col-md-4">
-        <a href="<?php echo $this->url('admin', ['action'=>'gestionArticle']); ?>">
+        <a href="<?php echo $this->url('admin', ['action'=>'gestionArticle', 'verb'=>'list']); ?>">
             <i class="fa fa-file-text fa-5x"></i>
             <p>Gestion des articles</p>
         </a>
     </div>
     <div class="col-md-4">
-        <a href="<?php echo $this->url('admin', ['action'=>'gestionAdmin']); ?>">
+        <a href="<?php echo $this->url('admin', ['action'=>'gestionAdmin', 'verb'=>'list']); ?>">
             <i class="fa fa-users fa-5x"></i>
             <p>Gestion des administrateurs</p>
         </a>

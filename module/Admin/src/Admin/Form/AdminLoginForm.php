@@ -3,13 +3,14 @@ namespace Admin\Form;
 
 use Zend\Form\Form;
 
-class AdminForm extends Form
+class AdminLoginForm extends Form
 {
     public function __construct($name = null)
     {
         // we want to ignore the name passed
         parent::__construct('admin');
 
+        //formulaire login
         $this->add(array(
             'name' => 'email',
             'type' => 'email',
@@ -25,12 +26,12 @@ class AdminForm extends Form
             ),
         ));
         $this->add(array(
-             'name' => 'submit',
-             'type' => 'Submit',
-             'attributes' => array(
-                 'value' => 'Go',
-                 'id' => 'submitbutton',
-             ),
-         ));
+            'name' => 'submit',
+            'type' => 'Submit',
+            'attributes' => array(
+                'value' => 'Go',
+                'id' => 'submitbutton',
+            ),
+        ));
     }
 }

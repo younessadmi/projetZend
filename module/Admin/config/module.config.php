@@ -11,14 +11,16 @@ return [
             'admin' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/admin[/:action][/:id]',
+                    'route'    => '/admin[/:action][/:verb][/:id]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-//                        'id'     => '[0-9]+',
+                        'verb'     => '(list|add|edit|delete){1}',
+                        'id' => '[0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'Admin\Controller\Admin',
                         'action'     => 'index',
+                        'verb'     => 'list',
                     ),
                 ),
             ),
