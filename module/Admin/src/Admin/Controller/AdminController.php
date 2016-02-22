@@ -112,9 +112,11 @@ class AdminController extends AbstractActionController
             $this->redirect()->toRoute('admin', ['action' => 'login']);
         }
 
+        $viewModel = [];
         $verb = $this->getEvent()->getRouteMatch()->getParam('verb');
         switch($verb){
             case 'list':{
+                $viewModel['articles'] = $this->getArticleTable()->fetchAll();
                 break;
             }
             case 'add':{
@@ -124,12 +126,22 @@ class AdminController extends AbstractActionController
                 break;
             }
             case 'delete':{
+                $id = (int) $this->getEvent()->getRouteMatch()->getParam('id');
+                if(!$id){
+                    $this->redirect()->toRoute('admin', ['action' => 'gestionArticle']);
+                }
+                $article = $this->getArticleTable()->getArticle($id);
+                if($article){
+                    $article->status = 3;
+                    $this->getArticleTable()->saveArticle($article);
+                    $viewModel['success'] = 'Article supprimé ';
+                }else $this->redirect()->toRoute('admin', ['action' => 'gestionArticle']);
                 break;
             }
         }
-        return new ViewModel([
-            'verb' => $verb,
-        ]);
+        
+        $viewModel['verb'] = $verb;
+        return new ViewModel($viewModel);
     }
 
     public function gestionAdminAction()
@@ -187,6 +199,7 @@ class AdminController extends AbstractActionController
                 break;
             }
             case 'edit':{
+                //to do
                 break;
             }
             case 'delete':{
@@ -200,9 +213,6 @@ class AdminController extends AbstractActionController
                     $this->getAdminTable()->saveAdmin($admin);
                     $viewModel['success'] = 'Administrateur supprimé ';
                 }else $this->redirect()->toRoute('admin', ['action' => 'gestionAdmin']);
-
-
-
                 break;
             }
         }

@@ -1,8 +1,64 @@
-<?php $this->headTitle('Article Management');?>
-
+<?php 
+$title = 'Article Management';
+$this->headTitle($title);?>
+<?php if(isset($error)){?>
+<div class="alert alert-danger alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <?php echo $error;?>
+</div>
+<?php }?>
+<?php if(isset($success)){?>
+<div class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <?php echo $success;?>
+</div>
+<?php }?>
 
 <?php if($verb == 'list'){?>
-
+<h1 style="text-align:center"><?php echo $this->escapeHtml($title);?></h1>
+<div class="row">
+    <div class="col-md-12">
+        <a class="btn btn-default" href="<?php echo $this->url('admin', ['action'=>'gestionArticle', 'verb'=>'add']); ?>" role="button"><i class="fa fa-plus"></i></a>
+        <br><br>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="datatable table">
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Date de publication</th>
+                    <th>Statut</th>
+                    <th>Editer</th>
+                    <th>Supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($articles as $article){?>
+                <?php $status = ['0'=>'Désactivé', '1'=>'En ligne', '3'=>'Supprimé', null=>'Désactivé', ];?>
+                <?php if($article->status != 3){?>
+                <tr>
+                    <td><?php echo substr($article->title, 0, 30);if(strlen($article->title) > 30){echo '...';}?></td>
+                    <td><?php echo $article->date_publish;?></td>
+                    <td><?php echo $status[$article->status];?></td>
+                    <td><a class="btn btn-default editArticle" href="<?php echo $this->url('admin', ['action'=>'gestionArticle', 'verb'=>'edit', 'id'=>$article->id]); ?>" role="button"><i class="fa fa-pencil"></i></a></td>
+                    <td><a class="btn btn-default deleteArticle" href="<?php echo $this->url('admin', ['action'=>'gestionArticle', 'verb'=>'delete', 'id'=>$article->id]); ?>" role="button"><i class="fa fa-trash"></i></a></td>
+                </tr>
+                <?php }?>
+                <?php }?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('.datatable').DataTable();
+        $('.deleteArticle').click(function(){
+            return confirm('Souhaitez vous supprimer cet article ?');
+        });
+    });
+</script>
 <?php }?>
 <?php if($verb == 'add'){?>
 
@@ -11,5 +67,9 @@
 
 <?php }?>
 <?php if($verb == 'delete'){?>
-
+<div class="row">
+    <div class="col-md-12">
+        <a href="<?php echo $this->url('admin', ['action'=>'gestionArticle', 'verb'=>'list']); ?>">Revenir à la liste des articles</a>
+    </div>
+</div>
 <?php }?>
