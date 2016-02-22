@@ -6,8 +6,10 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Admin\Model\Admin;
 use Mail\Model\Mail;
+use Article\Model\Article;
 use Admin\Form\AdminLoginForm;
 use Admin\Form\AdminAddAdminForm;
+use Article\Form\AddArticleForm;
 
 class AdminController extends AbstractActionController
 {
@@ -120,6 +122,31 @@ class AdminController extends AbstractActionController
                 break;
             }
             case 'add':{
+
+                $form = new AddArticleForm();
+                $form->get('submit')->setValue('Ajouter');
+
+                $request = $this->getRequest();
+                if ($request->isPost()) {
+                    $article = new Article();
+                    $form->setInputFilter($article->getInputFilter('addArticle'));
+                    $form->setData($request->getPost());
+
+                    if ($form->isValid()) {
+                        $getData = $form->getData();
+                        $getData['status'] = 1;                        
+                        $getData['idadmin'] = $_SESSION['id'];
+                        $article->exchangeArray($getData);
+                        $this->getArticleTable()->saveArticle($article);
+
+                        // Redirect to list of albums
+                        return $this->redirect()->toRoute('admin', ['action'=>'gestionArticle', 'verb'=>'list']);
+                    }
+                }
+                
+                
+                $viewModel['form'] = $form;
+
                 break;
             }
             case 'edit':{
@@ -139,7 +166,7 @@ class AdminController extends AbstractActionController
                 break;
             }
         }
-        
+
         $viewModel['verb'] = $verb;
         return new ViewModel($viewModel);
     }
