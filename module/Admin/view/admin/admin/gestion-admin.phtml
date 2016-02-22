@@ -1,0 +1,115 @@
+<?php 
+$title = 'Admin Management';
+$this->headTitle($title);
+?>
+<?php if(isset($error)){?>
+<div class="alert alert-danger alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <?php echo $error;?>
+</div>
+<?php }?>
+<?php if(isset($success)){?>
+<div class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <?php echo $success;?>
+</div>
+<?php }?>
+
+
+<!---------------------------------------------------------------------------------->
+<?php if($verb == 'list')
+{?>
+<!-- 
+Status 1 = activé
+Status 0 = banni
+Status 2 = Supprimé
+-->
+<h1 style="text-align:center"><?php echo $this->escapeHtml($title);?></h1>
+<div class="row">
+    <div class="col-md-12">
+        <a class="btn btn-default" href="<?php echo $this->url('admin', ['action'=>'gestionAdmin', 'verb'=>'add']); ?>" role="button"><i class="fa fa-plus"></i></a>
+        <br><br>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="datatable table">
+            <thead>
+                <tr>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Editer</th>
+                    <th>Supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($admins as $admin){?>
+                <?php if($admin->status == 1){?>
+                <tr>
+                    <td><?php echo $admin->firstname?></td>
+                    <td><?php echo $admin->name?></td>
+                    <td><a class="btn btn-default editAdmin" href="<?php echo $this->url('admin', ['action'=>'gestionAdmin', 'verb'=>'edit', 'id'=>$admin->id]); ?>" role="button"><i class="fa fa-pencil"></i></a></td>
+                    <td><a class="btn btn-default deleteAdmin" href="<?php echo $this->url('admin', ['action'=>'gestionAdmin', 'verb'=>'delete', 'id'=>$admin->id]); ?>" role="button"><i class="fa fa-trash"></i></a></td>
+                </tr>
+                <?php }?>
+                <?php }?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('.datatable').DataTable();
+        $('.deleteAdmin').click(function(){
+            return confirm('Souhaitez vous supprimer cet utilisateur ?');
+        });
+    });
+</script>
+
+<?php }?>
+<!---------------------------------------------------------------------------------->
+<?php if($verb == 'add')
+{?>
+
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<div class="row">
+    <div class="col-md-12 addAdminPage">
+        <?php $form->setAttribute('action', $this->url('admin', ['action' => 'gestionAdmin','verb'=>'add']));?>
+        <?php $form->prepare(); ?>
+        <?php echo $this->form()->openTag($form);?>
+        <div class="form-group"><?php echo $this->formRow($form->get('name'));?></div>
+        <div class="form-group"><?php echo $this->formRow($form->get('firstname'));?></div>
+        <div class="form-group"><?php echo $this->formRow($form->get('genre'));?></div>
+        <div class="form-group"><?php echo $this->formRow($form->get('password'));?></div>
+        <div class="form-group"><?php echo $this->formRow($form->get('idmail'));?></div>
+        <div class="form-group"><?php echo $this->formRow($form->get('idrole'));?></div>
+        <div class="form-group"><?php echo $this->formSubmit($form->get('submit'));?></div>
+        <?php echo $this->form()->closeTag();?>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('.addAdminPage input[type="text"], .addAdminPage input[type="email"], .addAdminPage input[type="password"]').each(function(){
+            $(this).addClass('form-control');
+        });
+        $('.addAdminPage button, .addAdminPage input[type="submit"]').each(function(){
+            $(this).addClass('btn btn-default');
+        });
+    });
+</script>
+<?php }?>
+<!---------------------------------------------------------------------------------->
+<?php if($verb == 'edit')
+{?>
+
+<?php }?>
+<!---------------------------------------------------------------------------------->
+<?php if($verb == 'delete')
+{?>
+<div class="row">
+    <div class="col-md-12">
+        <a href="<?php echo $this->url('admin', ['action'=>'gestionAdmin', 'verb'=>'list']); ?>">Revenir à la liste des administrateurs</a>
+    </div>
+</div>
+<?php }?>
+<!---------------------------------------------------------------------------------->

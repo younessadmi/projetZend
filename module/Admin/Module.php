@@ -3,6 +3,8 @@ namespace Admin;
 
 use Admin\Model\Admin;
 use Admin\Model\AdminTable;
+use Admin\Model\Role;
+use Admin\Model\RoleTable;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 
@@ -41,6 +43,17 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new Admin());
                     return new TableGateway('admin', $dbAdapter, null, $resultSetPrototype);
+                },
+                'Admin\Model\RoleTable' =>  function($sm) {
+                    $tableGateway = $sm->get('RoleTableGateway');
+                    $table = new RoleTable($tableGateway);
+                    return $table;
+                },
+                'RoleTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Role());
+                    return new TableGateway('role', $dbAdapter, null, $resultSetPrototype);
                 },
             ),
         );

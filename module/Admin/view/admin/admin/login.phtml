@@ -5,6 +5,12 @@ if(!isset($_SESSION['id'])){
     $form->setAttribute('action', $this->url('admin', ['action' => 'login']));
     $form->prepare();
 ?>
+<?php if(isset($error)){?>
+<div class="alert alert-danger alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <?php echo $error;?>
+</div>
+<?php }?>
 <div class="row">
     <div class="col-md-3 hidden-xs"></div>
     <div class="col-md-6 login-page">

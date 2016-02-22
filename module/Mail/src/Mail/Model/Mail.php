@@ -14,8 +14,8 @@ class Mail
     {
         $this->id     = (!empty($data['id'])) ? $data['id'] : null;
         $this->mail     = (!empty($data['mail'])) ? $data['mail'] : null;
-        $this->status     = (!empty($data['status'])) ? $data['status'] : null;
-        $this->suscribed     = (!empty($data['suscribed'])) ? $data['suscribed'] : null;
+        $this->status     = (!empty($data['status']) || $data['status'] == 0 ) ? $data['status'] : null;
+        $this->suscribed     = (!empty($data['suscribed']) || $data['suscribed'] == 0 ) ? $data['suscribed'] : null;
         $this->date_mail_validation     = (!empty($data['date_mail_validation'])) ? $data['date_mail_validation'] : null;
     }
 }

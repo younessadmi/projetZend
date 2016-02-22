@@ -31,7 +31,6 @@ class MailTable
 
     public function getMailByMail($mail)
     {
-        $id  = $mail;
         $rowset = $this->tableGateway->select(array('mail' => $mail));
         $row = $rowset->current();
         if (!$row) {

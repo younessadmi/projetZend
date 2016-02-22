@@ -1,0 +1,113 @@
+<?php 
+$title = 'Article Management';
+$this->headTitle($title);
+?>
+<?php if(isset($error)){?>
+<div class="alert alert-danger alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <?php echo $error;?>
+</div>
+<?php }?>
+<?php if(isset($success)){?>
+<div class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <?php echo $success;?>
+</div>
+<?php }?>
+
+
+<!---------------------------------------------------------------------------------->
+<?php if($verb == 'list')
+{?>
+<h1 style="text-align:center"><?php echo $this->escapeHtml($title);?></h1>
+<div class="row">
+    <div class="col-md-12">
+        <a class="btn btn-default" href="<?php echo $this->url('admin', ['action'=>'gestionArticle', 'verb'=>'add']); ?>" role="button"><i class="fa fa-plus"></i></a>
+        <br><br>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="datatable table">
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Date de publication</th>
+                    <th>Statut</th>
+                    <th>Editer</th>
+                    <th>Supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($articles as $article){?>
+                <?php $status = ['0'=>'Désactivé', '1'=>'En ligne', '3'=>'Supprimé', null=>'Désactivé', ];?>
+                <?php if($article->status != 3){?>
+                <tr>
+                    <td><?php echo substr($article->title, 0, 50);if(strlen($article->title) > 50){echo '...';}?></td>
+                    <td><?php echo $article->date_publish;?></td>
+                    <td><?php echo $status[$article->status];?></td>
+                    <td><a class="btn btn-default editArticle" href="<?php echo $this->url('admin', ['action'=>'gestionArticle', 'verb'=>'edit', 'id'=>$article->id]); ?>" role="button"><i class="fa fa-pencil"></i></a></td>
+                    <td><a class="btn btn-default deleteArticle" href="<?php echo $this->url('admin', ['action'=>'gestionArticle', 'verb'=>'delete', 'id'=>$article->id]); ?>" role="button"><i class="fa fa-trash"></i></a></td>
+                </tr>
+                <?php }?>
+                <?php }?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('.datatable').DataTable();
+        $('.deleteArticle').click(function(){
+            return confirm('Souhaitez vous supprimer cet article ?');
+        });
+    });
+</script>
+<?php }?>
+<!---------------------------------------------------------------------------------->
+<?php if($verb == 'add')
+{?>
+
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<div class="row">
+    <div class="col-md-12 addArticle">
+        <?php $form->setAttribute('action', $this->url('admin', ['action' => 'gestionArticle','verb'=>'add']));?>
+        <?php $form->prepare(); ?>
+        <?php echo $this->form()->openTag($form);?>
+        <div class="form-group"><?php echo $this->formRow($form->get('title'));?></div>
+        <div class="form-group"><?php echo $this->formRow($form->get('date_publish'));?></div>
+        <div class="form-group"><?php echo $this->formRow($form->get('url_picture'));?></div>
+        <div class="form-group"><?php echo $this->formRow($form->get('description'));?></div>
+        <div class="form-group"><?php echo $this->formRow($form->get('content'));?></div>
+        <div class="form-group"><?php echo $this->formSubmit($form->get('submit'));?></div>
+        <?php echo $this->form()->closeTag();?>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('.addArticle input[type="text"], .addArticle input[type="date"], .addArticle input[type="url"], .addArticle textarea').each(function(){
+            $(this).addClass('form-control');
+        });
+        $('.addArticle button, .addArticle input[type="submit"]').each(function(){
+            $(this).addClass('btn btn-default');
+        });
+        
+        $('.addArticle textarea').css('width', '100%');
+    });
+</script>
+<?php }?>
+<!---------------------------------------------------------------------------------->
+<?php if($verb == 'edit')
+{?>
+
+<?php }?>
+<!---------------------------------------------------------------------------------->
+<?php if($verb == 'delete')
+{?>
+<div class="row">
+    <div class="col-md-12">
+        <a href="<?php echo $this->url('admin', ['action'=>'gestionArticle', 'verb'=>'list']); ?>">Revenir à la liste des articles</a>
+    </div>
+</div>
+<?php }?>
+<!---------------------------------------------------------------------------------->

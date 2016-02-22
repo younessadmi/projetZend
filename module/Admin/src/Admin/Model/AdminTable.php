@@ -25,17 +25,30 @@ class AdminTable
         $rowset = $this->tableGateway->select(array('id' => $id));
         $row = $rowset->current();
         if (!$row) {
-            throw new \Exception("Could not find row $id");
+            return false;
+            //            throw new \Exception("Could not find row $id");
         }
         return $row;
     }
 
-    private function cryptPwd($pwd){
+    public function getAdminByIdmail($idmail)
+    {
+        $rowset = $this->tableGateway->select(array('idmail' => $idmail));
+        $row = $rowset->current();
+        if (!$row) {
+            return false;
+            //            throw new \Exception("Could not find row $id");
+        }
+        return $row;
+    }
+
+    private function cryptPwd($pwd)
+    {
         return substr(hash("sha256", sha1($pwd.$this->salt)), 0, 50);   
     }
 
-    public function getInfoAdmin($email, $pwd){
-
+    public function getInfoAdmin($email, $pwd)
+    {
         $where = [
             'idmail' => $email,
             'password' => $this->cryptPwd($pwd),
@@ -46,7 +59,19 @@ class AdminTable
         if(!$row){
             return false;
         }
-        echo '<pre>', var_dump($row), '</pre>';
+        return $row;
+    }
+
+    public function checkIfMailExist($mail){
+        $where = [
+            'idmail' => $mail
+        ];
+
+        $rowset = $this->tableGateway->select($where);
+        $row = $rowset->current();
+        if(!$row){
+            return false;
+        }
         return $row;
     }
 
@@ -57,7 +82,7 @@ class AdminTable
             'firstname'  => $admin->firstname,
             'genre'  => $admin->genre,
             'status'  => $admin->status,
-            'password'  => $admin->password,
+            'password'  => $this->cryptPwd($admin->password),
             'date_create'  => $admin->date_create,
             'date_edit'  => $admin->date_edit,
             'idmail'  => $admin->idmail,
@@ -69,7 +94,7 @@ class AdminTable
             $this->tableGateway->insert($data);
         } else {
             if ($this->getAdmin($id)) {
-                $this->tableGateway->update($data, array('id' => $id));
+                $this->tableGateway->update($data, ['id' => $id]);
             } else {
                 throw new \Exception('Admin id does not exist');
             }
